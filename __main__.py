@@ -15,6 +15,7 @@ async def on_message(websocket, path):
         api_instance = Cricbuzz()
         match_info = match_details.get_match_info(api_instance, message["id"])
         livescore = match_details.get_live_score(api_instance, message["id"])
+        commentary = match_details.get_commentary(api_instance, message["id"])
         json_object = json.dumps({"series": match_details.get_series_name(match_info),
                                     "team_names": match_details.get_team_names(match_info),
                                     "venue_names" : match_details.get_venue_name(match_info),
@@ -27,10 +28,30 @@ async def on_message(websocket, path):
                                                 "batting_team" : match_details.get_batting_team_name(livescore),
                                                 "bowling_team" : match_details.get_bowling_team_name(livescore),
                                                 "batsman" : match_details.get_batsman(livescore),
-                                                "bowler" : match_details.get_bowler(livescore)
+                                                "bowler" : match_details.get_bowler(livescore),
+                                                "stricker": match_details.striker(commentary[0]['comm']),
                                             },
                                 })
         await websocket.send(json_object)
+        over = match_details.get_total_overs(livescore)
+        while(True):
+            livescore = match_details.get_live_score(api_instance, message["id"])
+            if (match_details.get_total_overs != over):
+                over = match_details.get_total_overs()
+                commentary = match_details.get_commentary(api_instance, message["id"])
+                json_object = json.dumps({
+                                            "score" : {"runs": match_details.get_total_runs_of_batting_team(livescore),
+                                            "wickets": match_details.get_total_wickets_of_batting_team(livescore),
+                                            "overs" : match_details.get_total_overs(livescore),
+                                            "inning" : match_details.get_inning_number(livescore),
+                                            "batting_team" : match_details.get_batting_team_name(livescore),
+                                            "bowling_team" : match_details.get_bowling_team_name(livescore),
+                                            "batsman" : match_details.get_batsman(livescore),
+                                            "bowler" : match_details.get_bowler(livescore),
+                                            "stricker": match_details.striker(commentary[1]['comm']),
+                                        },
+                })
+                await websocket.send(json_object)
 
 
 if __name__ == '__main__':

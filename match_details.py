@@ -19,7 +19,6 @@ def get_umpire_name(match_info):
 
 def get_live_score(api_instance, match_id):
     live_score = api_instance.livescore(match_id)
-    print(live_score)
     return live_score
 
 def get_total_runs_of_batting_team(livescore):
@@ -45,3 +44,12 @@ def get_batsman(livescore):
 
 def get_bowler(livescore):
     return livescore['bowling']['bowler'][0]
+
+def get_commentary(api_instance, match_id):
+    comm = api_instance.commentary(match_id)
+    return comm['commentary']
+
+def striker(comm):
+    name = comm.split(" to ", 1)[1].split()[0]
+    print(name)
+    return name
