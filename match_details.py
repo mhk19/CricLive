@@ -53,3 +53,14 @@ def striker(comm):
     name = comm.split(" to ", 1)[1].split()[0]
     print(name)
     return name
+
+directions = ['thirdman', 'point', 'cover', 'longoff', 'longon', 'midwicket', 'squareleg', 'fineleg']
+
+def findDirection(comm):
+    comm = comm.replace('-', '')
+    comm = comm.replace(' ', '')
+    for direction in directions:
+        if (comm.find(direction)!=-1):
+            print(direction)
+            return direction
+    return ''

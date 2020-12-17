@@ -27,8 +27,10 @@ async def on_message(websocket, path):
             commentary = match_details.get_commentary(api_instance, message["id"])
         if commentary[0]['over']==None:
             striker = ''
+            shot_type = ''
         else:
             striker = match_details.striker(commentary[0]['comm'])
+            shot_type = match_details.findDirection(commentary[0]['comm'])
         json_object = json.dumps({"series": match_details.get_series_name(match_info),
                                     "team_names": match_details.get_team_names(match_info),
                                     "venue_names" : match_details.get_venue_name(match_info),
@@ -43,6 +45,7 @@ async def on_message(websocket, path):
                                                 "batsman" : match_details.get_batsman(livescore),
                                                 "bowler" : match_details.get_bowler(livescore),
                                                 "stricker": striker,
+                                                "shot_type": shot_type
                                             },
                                 })
         await websocket.send(json_object)
@@ -51,8 +54,10 @@ async def on_message(websocket, path):
                 livescore = data['livescore'][i+1]
                 if commentary[i+1]['over'] == None:
                     striker = ''
+                    shot_type = ''
                 else:
                     striker = match_details.striker(commentary[i+1]['comm'])
+                    shot_type = match_details.findDirection(commentary[i+1]['comm'])
                 json_object = json.dumps({
                                             "score" : {"runs": match_details.get_total_runs_of_batting_team(livescore),
                                             "wickets": match_details.get_total_wickets_of_batting_team(livescore),
@@ -63,6 +68,7 @@ async def on_message(websocket, path):
                                             "batsman" : match_details.get_batsman(livescore),
                                             "bowler" : match_details.get_bowler(livescore),
                                             "stricker": striker,
+                                            "shot_type": shot_type
                                         },
                 })
                 await websocket.send(json_object)
@@ -76,8 +82,10 @@ async def on_message(websocket, path):
                     commentary = match_details.get_commentary(api_instance, message["id"])
                     if commentary[0]['over']!=over:
                         striker = ''
+                        shot_type = ''
                     else:
                         striker = match_details.striker(commentary[0]['comm'])
+                        shot_type = match_details.findDirection(commentary[0]['comm'])
                     json_object = json.dumps({
                                                 "score" : {"runs": match_details.get_total_runs_of_batting_team(livescore),
                                                 "wickets": match_details.get_total_wickets_of_batting_team(livescore),
@@ -88,6 +96,7 @@ async def on_message(websocket, path):
                                                 "batsman" : match_details.get_batsman(livescore),
                                                 "bowler" : match_details.get_bowler(livescore),
                                                 "stricker": striker,
+                                                "shot_type": shot_type
                                             },
                     })
                     await websocket.send(json_object)
