@@ -46,7 +46,7 @@ async def on_message(websocket, path):
                                                 "bowling_team" : match_details.get_bowling_team_name(livescore),
                                                 "batsman" : match_details.get_batsman(livescore),
                                                 "bowler" : match_details.get_bowler(livescore),
-                                                "stricker": striker,
+                                                "striker": striker,
                                                 "shot_type": shot_type
                                             },
                                 })
@@ -69,7 +69,7 @@ async def on_message(websocket, path):
                                             "bowling_team" : match_details.get_bowling_team_name(livescore),
                                             "batsman" : match_details.get_batsman(livescore),
                                             "bowler" : match_details.get_bowler(livescore),
-                                            "stricker": striker,
+                                            "striker": striker,
                                             "shot_type": shot_type
                                         },
                 })
@@ -97,7 +97,7 @@ async def on_message(websocket, path):
                                                 "bowling_team" : match_details.get_bowling_team_name(livescore),
                                                 "batsman" : match_details.get_batsman(livescore),
                                                 "bowler" : match_details.get_bowler(livescore),
-                                                "stricker": striker,
+                                                "striker": striker,
                                                 "shot_type": shot_type
                                             },
                     })
