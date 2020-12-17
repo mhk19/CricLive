@@ -23,7 +23,9 @@ async def on_message(websocket, path):
         else:
             data = ''
             match_info = match_details.get_match_info(api_instance, message["id"])
+            print(match_info)
             livescore = match_details.get_live_score(api_instance, message["id"])
+            print(livescore)
             commentary = match_details.get_commentary(api_instance, message["id"])
         if commentary[0]['over']==None:
             striker = ''
@@ -77,8 +79,8 @@ async def on_message(websocket, path):
             over = match_details.get_total_overs(livescore)
             while(True):
                 livescore = match_details.get_live_score(api_instance, message["id"])
-                if (match_details.get_total_overs != over):
-                    over = match_details.get_total_overs()
+                if (match_details.get_total_overs(livescore) != over):
+                    over = match_details.get_total_overs(livescore)
                     commentary = match_details.get_commentary(api_instance, message["id"])
                     if commentary[0]['over']!=over:
                         striker = ''
@@ -103,6 +105,6 @@ async def on_message(websocket, path):
 
 
 if __name__ == '__main__':
-    start_server = websockets.serve(on_message, "localhost", 8765)
+    start_server = websockets.serve(on_message, "localhost", 8765, ping_interval=None)
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
