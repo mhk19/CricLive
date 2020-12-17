@@ -54,7 +54,7 @@ def striker(comm):
     print(name)
     return name
 
-directions = ['thirdman', 'point', 'cover', 'longoff', 'longon', 'midwicket', 'squareleg', 'fineleg']
+directions = ['thirdman', 'point', 'cover', 'longoff', 'longon', 'midwicket', 'squareleg', 'fineleg', 'cowcorner']
 
 def findDirection(comm):
     comm = comm.replace('-', '')
@@ -63,4 +63,19 @@ def findDirection(comm):
         if (comm.find(direction)!=-1):
             print(direction)
             return direction
+    return ''
+
+def isStriker(striker, player):
+    if (player.find(striker) != -1):
+        return True
+    return False
+
+out_type = ['caught', 'lbw', 'runout', 'bowled']
+
+def find_out_type(comm):
+    comm.replace('-', '')
+    comm.replace(' ', '')
+    for type in out_type:
+        if comm.find(type) != -1:
+            return type
     return ''
